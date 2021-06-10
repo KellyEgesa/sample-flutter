@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sample/transaction.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -29,72 +30,111 @@ class MyHomePage extends StatelessWidget {
     )
   ];
 
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Flutter App"),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Card(
-              child: Container(
-                child: Text(
-                  "CHART",
-                ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Card(
+            child: Container(
+              child: Text(
+                "CHART",
               ),
-              elevation: 5,
             ),
-            Column(
-              children: transactions
-                  .map(
-                    (transaction) => Card(
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 15),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                              color: Colors.purple,
-                              width: 2,
-                            )),
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              "\$ ${transaction.amount}",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                transaction.title,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Text(
-                                transaction.date.toString(),
-                                style:
-                                    TextStyle(fontSize: 11, color: Colors.grey),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
+            elevation: 5,
+          ),
+          Card(
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: "Title",
+                    ),
+                    controller: titleController,
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      labelText: "Amount",
+                    ),
+                    controller: amountController,
+                  ),
+                  TextButton(
+                    onPressed: () => {},
+                    child: Text(
+                      "Add Transaction",
+                    ),
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.purple),
                     ),
                   )
-                  .toList(),
-            )
-          ],
-        ),
+                ],
+              ),
+            ),
+          ),
+          Column(
+            children: transactions
+                .map(
+                  (transaction) => Card(
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: Colors.purple,
+                            width: 2,
+                          )),
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "\$ ${transaction.amount}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              transaction.title,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54),
+                            ),
+                            Text(
+                              DateFormat.yMMMd().format(transaction.date),
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                )
+                .toList(),
+          )
+        ],
       ),
     );
   }
