@@ -44,16 +44,19 @@ class TranscationList extends StatelessWidget {
                         child: FittedBox(
                             child: Text(
                           "\$${transactions[index].amount}",
-                          style: Text,
                         )),
                       ),
                     ),
                     title: Text(
                       transactions[index].title,
-                      style: Theme.of(context).textTheme.headline1,
+                      // style: Theme.of(context).textTheme.headline1,
                     ),
                     subtitle: Text(
                         DateFormat.yMMMd().format(transactions[index].date)),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                    ),
                   ),
                 );
               },
